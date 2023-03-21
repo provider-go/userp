@@ -1,18 +1,25 @@
-package defaultuserp
+package userp
 
 import (
-	"github.com/provider-go/userp/defaultuserp/models/mysql"
+	"fmt"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 	"testing"
 )
 
-func connMysql() {
+func connMysql() UserProvider {
 	// 连接mysql
-	mysql.NewMysql("root:ZTQ4ZTBjMTViNGMzODgzODUz@tcp(120.53.243.73:13306)/services?charset=utf8")
+	DBConn, err := gorm.Open(mysql.Open("root:******@tcp(ip:13306)/services?charset=utf8"), &gorm.Config{})
+	if err != nil {
+		fmt.Println(err)
+	}
+	provider := GetUserProvider("default")
+	provider.SetDB(DBConn)
+	return provider
 }
 
 func TestCreate(t *testing.T) {
-	connMysql()
-	provider := NewDefaultUserProvider()
+	provider := connMysql()
 	err := provider.Create("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "bbbbbbb", "yuyu", "12346", "yuyu", 1, "HHHHH", "15101131912", "69401295@qq.com")
 	if err != nil {
 		t.Log(err)
@@ -20,8 +27,7 @@ func TestCreate(t *testing.T) {
 }
 
 func TestView(t *testing.T) {
-	connMysql()
-	provider := NewDefaultUserProvider()
+	provider := connMysql()
 	res, err := provider.View("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 	if err != nil {
 		t.Log(err)
@@ -30,8 +36,7 @@ func TestView(t *testing.T) {
 }
 
 func TestList(t *testing.T) {
-	connMysql()
-	provider := NewDefaultUserProvider()
+	provider := connMysql()
 	res, count, err := provider.List("bbbbbbb", "20", "1")
 	if err != nil {
 		t.Log(err)
@@ -41,8 +46,7 @@ func TestList(t *testing.T) {
 }
 
 func TestLogin(t *testing.T) {
-	connMysql()
-	provider := NewDefaultUserProvider()
+	provider := connMysql()
 	err := provider.Login("bbbbbbb", "qiqi", "12346")
 	if err != nil {
 		t.Log(err)
@@ -50,8 +54,7 @@ func TestLogin(t *testing.T) {
 }
 
 func TestResetPassword(t *testing.T) {
-	connMysql()
-	provider := NewDefaultUserProvider()
+	provider := connMysql()
 	err := provider.ResetPassword("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "1234678")
 	if err != nil {
 		t.Log(err)
@@ -59,8 +62,7 @@ func TestResetPassword(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	connMysql()
-	provider := NewDefaultUserProvider()
+	provider := connMysql()
 	err := provider.Delete("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
 	if err != nil {
 		t.Log(err)

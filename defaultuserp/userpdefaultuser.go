@@ -1,4 +1,4 @@
-package mysql
+package defaultuserp
 
 type UserPDefaultUser struct {
 	Id         string `json:"id"`
