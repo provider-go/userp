@@ -9,7 +9,7 @@ import (
 
 func connMysql() UserProvider {
 	// 连接mysql
-	DBConn, err := gorm.Open(mysql.Open("root:******@tcp(ip:13306)/services?charset=utf8"), &gorm.Config{})
+	DBConn, err := gorm.Open(mysql.Open("root:password@tcp(ip:13306)/services?charset=utf8"), &gorm.Config{})
 	if err != nil {
 		fmt.Println(err)
 	}
