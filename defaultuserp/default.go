@@ -11,6 +11,7 @@ type DefaultUserProvider struct {
 	MysqlDB *gorm.DB
 }
 
+// NewDefaultUserProvider 初始化供应商
 func NewDefaultUserProvider() *DefaultUserProvider {
 	p := &DefaultUserProvider{}
 	return p
